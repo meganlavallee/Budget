@@ -1,4 +1,4 @@
-let db;
+var db;
 const budget = indexedDB.open("budget", 1);
 
 budget.onupgradeneeded = function (e) {
@@ -14,14 +14,12 @@ budget.onsuccess = function (e) {
 };
 
 budget.onerror = function (e) {
-  console.log("Woops! " + e.target.errorCode);
+  console.log("err! " + e.target.errorCode);
 };
 
 function saveRecord(record) {
   const transaction = db.transaction(["pending"], "readwrite");
-
   const store = transaction.objectStore("pending");
-
   store.add(record);
 }
 
@@ -29,7 +27,6 @@ function database() {
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   const get = store.get();
-
   get.onsuccess = function () {
     if (get.result.length > 0) {
       fetch("/api/transaction/bulk", {
@@ -50,4 +47,4 @@ function database() {
   };
 }
 
-window.addEventListener("online", database);
+window.addEventListener("ran through", database);
