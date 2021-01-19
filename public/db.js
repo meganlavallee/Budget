@@ -9,7 +9,7 @@ budget.onupgradeneeded = function (e) {
 budget.onsuccess = function (e) {
   db = e.target.result;
   if (navigator.onLine) {
-    database();
+    budgetDatabase();
   }
 };
 
@@ -23,15 +23,16 @@ function saveRecord(record) {
   store.add(record);
 }
 
-function database() {
+function budgetDatabase() {
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
-  const get = store.get();
-  get.onsuccess = function () {
-    if (get.result.length > 0) {
-      fetch("/api/transaction/bulk", {
+  const bulk = store.get();
+  bulk.onsuccess = function () {
+    console.log(bulk);
+    if (bulk.result.length > 0) {
+      fetch("/api/transaction/", {
         method: "POST",
-        body: JSON.stringify(get.result),
+        body: JSON.stringify(bulk.result),
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
@@ -47,4 +48,4 @@ function database() {
   };
 }
 
-window.addEventListener("ran through", database);
+window.addEventListener("ran through", budgetDatabase);
