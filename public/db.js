@@ -26,11 +26,11 @@ function saveRecord(record) {
 function budgetDatabase() {
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
-  const bulk = store.get();
+  const bulk = store.getAll();
   bulk.onsuccess = function () {
     console.log(bulk);
     if (bulk.result.length > 0) {
-      fetch("/api/transaction/", {
+      fetch("/api/transaction/bulk", {
         method: "POST",
         body: JSON.stringify(bulk.result),
         headers: {

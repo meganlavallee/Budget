@@ -89,7 +89,7 @@ function send(isAdding) {
   populateTable();
   populateTotal();
   
-  fetch("/api/transaction", {
+  fetch("/api/transaction/bulk", {
     method: "POST",
     body: JSON.stringify(transaction),
     headers: {
